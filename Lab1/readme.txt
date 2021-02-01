@@ -1,4 +1,7 @@
 References:
+https://docs.python.org/3/howto/argparse.html
+https://numpy.org/doc/stable/user/quickstart.html
+https://www.youtube.com/watch?v=d7AovBKeNMI&ab_channel=JeffreyChasnov
 https://docs.opencv.org/3.4.2/index.html
 https://stackoverflow.com/questions/61913537/set-width-of-text-using-opencv-puttext
 https://www.geeksforgeeks.org/python-opencv-cv2-puttext-method/
