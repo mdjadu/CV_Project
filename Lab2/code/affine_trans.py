@@ -24,7 +24,7 @@ def manual(src_img, src_coord, des_coord):
 
 def api(src_img, src_coord, des_coord):
 	H = cv2.getAffineTransform(src_coord, des_coord)
-	org_img = cv2.warpAffine(src_img, H, (595,595), flags=cv2.WARP_INVERSE_MAP)
+	org_img = cv2.warpAffine(src_img, H, (600,600), flags=cv2.WARP_INVERSE_MAP)
 	return org_img
 
 
