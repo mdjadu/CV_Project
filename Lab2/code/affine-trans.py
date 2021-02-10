@@ -33,7 +33,7 @@ if __name__ == '__main__':
 	parser.add_argument("-mat", default='api', help="Computation method")
 	args = parser.parse_args()
 
-	dis_img = cv2.imread("distorted.jpg")  # mention the image path if it is in a different directory
+	dis_img = cv2.imread("../data/distorted.jpg")  # mention the image path if it is in a different directory
 	C_org = np.float32(np.array([[600,0],[600,-600],[0,-600]]))
 	C_dis = np.float32(np.array([[600,-60],[660,-660],[60,-600]]))
 

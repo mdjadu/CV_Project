@@ -7,6 +7,10 @@ https://note.nkmk.me/en/python-opencv-numpy-alpha-blend-mask/
 https://stackoverflow.com/questions/55592105/how-to-blackout-the-background-of-an-image-after-doing-contour-detection-using-o/55592662
 https://www.geeksforgeeks.org/find-and-draw-contours-using-opencv-python/
 https://stackoverflow.com/questions/51121978/how-to-fill-a-polyline-in-opencv
+https://www.docs.opencv.org/master/da/d22/tutorial_py_canny.html
+https://www.tutorialkart.com/opencv/python/opencv-python-gaussian-image-smoothing/
+https://www.youtube.com/watch?v=ON_JubFRw8M
+https://docs.opencv.org/3.1.0/d4/d73/tutorial_py_contours_begin.html
 
 
 
