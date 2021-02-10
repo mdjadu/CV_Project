@@ -38,7 +38,7 @@ if __name__ == '__main__':
 	C_dis = np.float32(np.array([[600,-60],[660,-660],[60,-600]]))
 
 	if args.mat == 'manual':
-		org_img = manual(dis_img, C_dis, C_org);
+		org_img = manual(dis_img, C_dis, C_org)
 	
 	if args.mat == 'api':
 		org_img = api(dis_img, C_dis, C_org)
