@@ -22,12 +22,12 @@ src = np.dstack([src_cols.flat, src_rows.flat])[0]
 
 # The imp part
 # Adding the sin to make the image back to normal
-# Amplitude was found to be 50 (try and error)
+# Amplitude was found to be 50
 # Cycle was found to 3 pis (by observation)
 dst_rows = src[:, 1] + np.sin(np.linspace(0,3*np.pi, src.shape[0]))*50    
 dst_cols = src[:, 0] 
 
-# adding this to remove the black part from the top (try and error)
+# adding this to remove the black part from the top
 dst_rows += 1.5 * 50
 
 dst = np.vstack([dst_cols, dst_rows]).T
@@ -36,7 +36,7 @@ dst = np.vstack([dst_cols, dst_rows]).T
 tform = PiecewiseAffineTransform()
 tform.estimate(src, dst)
 
-# adding this to remove the black part from the bottom (try and error)
+# adding this to remove the black part from the bottom
 out_rows = rows - 2.5*50
 out_cols = cols 
 out = warp(image, tform, output_shape=(out_rows, out_cols))

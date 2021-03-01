@@ -11,7 +11,7 @@ Answer: Given that the X axis /horizontal /column was divided in 20 parts.
 Question: Explain the process that you followed, even if it is elementary.
 Answer: Step 1 - created the grid (how? answer above).
         Step 2 - By observation (1.5 cycle) we found the cycle was 3pis.
-        Step 3 - Then we did try and error to get the Amplitude.
+        Step 3 - By observation we found the Amplitude.
         Got the image :-)
 
 Some function used:
