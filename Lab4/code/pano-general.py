@@ -81,13 +81,13 @@ def mosaic(imagesPad, refImage):
 	i = refIndex-1
 	while i>=0:
 		H_temp = homography(imagesPad[i+1],imagesPad[i])
-		H[i] = np.dot(H_temp,H[i+1])
+		H[i] = np.dot(H[i+1],H_temp)
 		i -= 1
 
 	j = refIndex+1
 	while j<len(imagesPad):
 		H_temp = homography(imagesPad[j-1],imagesPad[j])
-		H[j] = np.dot(H_temp,H[j-1])
+		H[j] = np.dot(H[j-1],H_temp)
 		j += 1
 
 	print(H)

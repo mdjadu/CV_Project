@@ -10,7 +10,7 @@ args = parser.parse_args()
 image = cv2.imread(args.img_path)
 save_image = image
 w = h = 1080    # original width and height 
-epoch = 150      # number of intermediate steps
+epoch = 150     # number of intermediate steps
 sec = 5         # how long the video to be in sec
 
 # points are the coordinates of map in the given image
