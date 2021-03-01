@@ -1,0 +1,22 @@
+Reflection Essay
+
+1. Piecewise Affine transformation
+
+Question: How to select the grid-point correspondences for this problem?
+Answer: Given that the X axis /horizontal /column was divided in 20 parts.
+        We can use that and for Y axis we can divide it by any number.
+        We have used 20 only (we can use 10 15 too).
+        Using this we can create a grid and use them.
+
+Question: Explain the process that you followed, even if it is elementary.
+Answer: Step 1 - created the grid (how? answer above).
+        Step 2 - By observation (1.5 cycle) we found the cycle was 3pis.
+        Step 3 - Then we did try and error to get the Amplitude.
+        Got the image :-)
+
+Some function used:
+np.linspace     (https://numpy.org/doc/stable/reference/generated/numpy.linspace.html)
+np.meshgrid     (https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html)
+np.dstack       (https://numpy.org/doc/stable/reference/generated/numpy.dstack.html)
+np.vstack       (https://numpy.org/doc/stable/reference/generated/numpy.vstack.html)
+skimage -> warp (https://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.warp)
