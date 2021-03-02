@@ -1,7 +1,13 @@
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import os
+
+
+def crop(image):
+    y_nonzero, x_nonzero, _ = np.nonzero(image)
+    return image[np.min(y_nonzero):np.max(y_nonzero), np.min(x_nonzero):np.max(x_nonzero)]
 
 
 def click_event(event, x, y, flags, params):
@@ -22,7 +28,6 @@ if __name__ == "__main__":
 
     # Get images from folder
     images = os.listdir(args.path)
-    print(images)
 
     # Load images
     image1 = cv2.imread(args.path + "/" + images[0])
@@ -57,14 +62,14 @@ if __name__ == "__main__":
 
     src_pts = np.array(src_pts, dtype=np.float32)
     dst_pts = np.array(dst_pts, dtype=np.float32)
-    dst_pts = dst_pts + np.array([image1.shape[1], 0])  # Adding image1.shape[1] to x co-ordinnate to match final output
+    dst_pts = dst_pts + np.array([image2.shape[1], image2.shape[0]])  # Adding image1.shape[1] to x co-ordinnate to match final output
 
     # Finding homography matrix using RANSAC method
     matrix, _ = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC)
 
-    # Doing the transformation
-    res = cv2.warpPerspective(image2, matrix, (image1.shape[1]+image2.shape[1], image1.shape[0]))
-    res[:image1.shape[0], -image1.shape[1]:] = image1
+    res = cv2.warpPerspective(image2, matrix, (image2.shape[1] + image1.shape[1] + image2.shape[1],
+                                               image2.shape[0] + image1.shape[0] + image2.shape[0]))
+    res[image2.shape[0]:image2.shape[0] + image1.shape[0], image2.shape[1]:image2.shape[1] + image1.shape[1]] = image1
 
     y_nz, x_nz, _ = np.nonzero(res)
     res = res[np.min(y_nz):np.max(y_nz), np.min(x_nz):np.max(x_nz)]
