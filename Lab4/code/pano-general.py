@@ -39,7 +39,7 @@ def homography(refImg, stitchImg):
 	refImg_bw = cv.cvtColor(refImg,cv.COLOR_BGR2GRAY) 
 	stitchImg_bw = cv.cvtColor(stitchImg, cv.COLOR_BGR2GRAY) 
 
-	n = 2000
+	n = 1000
 
 	orb = cv.ORB_create(n) 
 
