@@ -39,17 +39,18 @@ def homography(refImg, stitchImg):
 	refImg_bw = cv.cvtColor(refImg,cv.COLOR_BGR2GRAY) 
 	stitchImg_bw = cv.cvtColor(stitchImg, cv.COLOR_BGR2GRAY) 
 
-	n = 500
+	n = 2000
 
 	orb = cv.ORB_create(n) 
 
 	kp1, des1 = orb.detectAndCompute(refImg_bw,None) 
 	kp2, des2 = orb.detectAndCompute(stitchImg_bw,None) 
 
-	matcher = cv.BFMatcher(cv.NORM_HAMMING,crossCheck=True) 
+	matcher = cv.BFMatcher(cv.NORM_HAMMING, crossCheck=True) 
 	matches = matcher.match(des1,des2)
 	matches = sorted(matches, key = lambda x:x.distance)
 	matchesFilt = matches[:int(len(matches)/5)]
+	# matchesFilt = matches
 
 	matches_img = cv.drawMatches(refImg,kp1,stitchImg,kp2,matchesFilt,None,matchColor = (0,255,0))
 
@@ -71,8 +72,6 @@ def mosaic(imagesPad, refImage):
 		if cv.countNonZero(b) == 0 and cv.countNonZero(g) == 0 and cv.countNonZero(r) == 0:
 			refIndex = i
 
-	print(refIndex)
-
 	H = []
 	for i in imagesPad:
 		H.append(np.eye(3))
@@ -90,7 +89,7 @@ def mosaic(imagesPad, refImage):
 		H[j] = np.dot(H[j-1],H_temp)
 		j += 1
 
-	print(H)
+	# print(H)
 
 	imagesWarp = []
 	for i,j in enumerate(imagesPad):
@@ -118,16 +117,13 @@ if __name__ == '__main__':
 		if f[-4:] == ".png" or f[-4:] == ".jpg" or f[-5:] == ".jpeg":  
 			imgNames.append(f)
 	imgNames.sort()
-	print(imgNames)
 
 	images = []
 	for i in imgNames:
 		img = cv.imread(f'{sys.argv[1]}/{i}')
-		img = cv.resize(img,(0,0),fx=0.5, fy=0.5, interpolation=cv.INTER_AREA)
+		img = cv.resize(img,(0,0),fx=0.0625, fy=0.0625, interpolation=cv.INTER_AREA)
 		images.append(img)
 
-	print(images[0].dtype)
-	
 	refIndex = int(sys.argv[2])-1
 	ref_y = images[refIndex].shape[0]
 	ref_x = images[refIndex].shape[1]
@@ -150,7 +146,8 @@ if __name__ == '__main__':
 	y_nz, x_nz, _ = np.nonzero(pano)
 	pano = pano[np.min(y_nz):np.max(y_nz), np.min(x_nz):np.max(x_nz)]
 
-	cv.imwrite("pano.jpg",pano)
+	outputPath = "../results/pano-general-results/example/5.jpg"
+	cv.imwrite(outputPath,pano)
 
 	cv.imshow('panorama',pano)
 	cv.waitKey(0)
