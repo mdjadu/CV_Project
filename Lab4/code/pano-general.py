@@ -121,7 +121,7 @@ if __name__ == '__main__':
 	images = []
 	for i in imgNames:
 		img = cv.imread(f'{sys.argv[1]}/{i}')
-		img = cv.resize(img,(0,0),fx=0.0625, fy=0.0625, interpolation=cv.INTER_AREA)
+		img = cv.resize(img,(0,0),fx=0.5, fy=0.5, interpolation=cv.INTER_AREA)
 		images.append(img)
 
 	refIndex = int(sys.argv[2])-1
