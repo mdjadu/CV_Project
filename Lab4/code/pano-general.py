@@ -146,8 +146,8 @@ if __name__ == '__main__':
 	y_nz, x_nz, _ = np.nonzero(pano)
 	pano = pano[np.min(y_nz):np.max(y_nz), np.min(x_nz):np.max(x_nz)]
 
-	outputPath = "../results/pano-general-results/example/5.jpg"
-	cv.imwrite(outputPath,pano)
+	# outputPath = "../results/pano-general-results/example/5.jpg"
+	# cv.imwrite(outputPath,pano)
 
 	cv.imshow('panorama',pano)
 	cv.waitKey(0)

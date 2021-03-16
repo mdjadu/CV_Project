@@ -16,16 +16,19 @@ if __name__ == '__main__':
 
 	data_3 = np.insert(data,2,0,axis=1)   # 3D co-ordinates with Z=0 for real co-ordinates
 
-	real_coords = [data_3[0:5], data_3[0:5]]
-	pixel_coords = [data[0:5], data[6:11]]
+	# real_coords = [[[0, 2, 0], [1, 2, 0], [2, 2, 0], [0, 1, 0], [1, 1, 0], [2, 1, 0]],
+ #               [[0, 2, 0], [1, 2, 0], [2, 2, 0], [0, 1, 0], [1, 1, 0], [2, 1, 0]]]
+
+	real_coords = [data_3[0:6], data_3[0:6]]
+	pixel_coords = [data[0:6], data[6:12]]
 
 	real_coords = np.array(real_coords, dtype=np.float32)
 	pixel_coords = np.array(pixel_coords, dtype=np.float32)
 
-	ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(real_coords, pixel_coords, (640, 480), None, None)
+	ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(real_coords, pixel_coords, (640,480), None, None)
 
 	print(mtx)
-	print(rvecs)
+	# print(rvecs)
 
 	tot_error = 0
 	n_points = 0

@@ -62,6 +62,8 @@ if __name__ == "__main__":
 
     # Get images from folder
     images_list = os.listdir(args.path)
+    images_list.sort()
+    print(images_list)
 
     # Load images
     images = []
