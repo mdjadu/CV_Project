@@ -30,3 +30,6 @@ http://ksimek.github.io/2013/08/13/intrinsic/
 https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_gui/py_drawing_functions/py_drawing_functions.html
 http://www.opencv.org.cn/opencvdoc/2.3.2/html/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html?highlight=findfun#projectpoints
 https://docs.opencv.org/3.4/d9/d0c/group__calib3d.html#ga687a1ab946686f0d85ae0363b5af1d7b
+https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d
+https://docs.opencv.org/3.4/d9/d0c/group__calib3d.html#ga1019495a2c8d1743ed5cc23fa0daff8c
+https://docs.opencv.org/master/dc/dbb/tutorial_py_calibration.html
