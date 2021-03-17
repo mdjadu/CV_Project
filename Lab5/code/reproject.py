@@ -53,7 +53,7 @@ if __name__ == '__main__':
 	p1_3 = np.insert(p1,2,0,axis=1)     # 3D co-ordinates with Z=0 for real co-ordinates
 	p2_3 = np.insert(p2,2,0,axis=1)
 
-	world_coords = [p2_3, p2_3]         # Method2 (refer Reflection Essay). For image 1 put p1_3 instead of p2_3, & vice-versa.
+	world_coords = [p1_3, p1_3]         # Method2 (refer Reflection Essay). For image 1 put p1_3 instead of p2_3, & vice-versa.
 	pixel_coords = [p1, p2]
 
 	# world_coords = [[[0, 0, 0], [0, 3, 0], [3, 0, 0], [3, 3, 0], [6, 0, 0], [6, 3, 0]],          # Method1 (refer Reflection Essay)
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 	world_coords = np.array(world_coords, dtype=np.float32)
 	pixel_coords = np.array(pixel_coords, dtype=np.float32)
 
-	ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(world_coords, pixel_coords, (1000,1000), None, None)
+	ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(world_coords, pixel_coords, (1000, 1000), None, None)
 
 	print(mtx)
 	# print(rvecs)
