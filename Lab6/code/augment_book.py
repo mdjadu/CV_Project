@@ -1,10 +1,11 @@
 import cv2
 import numpy as np
 import argparse
+import math
 
 
 def draw_line(points, i, j, img):
-    cv2.line(img, points[i], points[j], (0, 0, 255), 2)
+    cv2.line(img, points[i], points[j], (0, 0, 255), 3)
 
 
 def face_transform(src, dst_pts):
@@ -32,6 +33,29 @@ def draw_book_on_img(points, src):
     draw_line(points, 5, 7, src)
     draw_line(points, 6, 7, src)
 
+def check_point_visible(pointA, pointB, pointC, pointD):
+    a, b, c = get_line_params(pointA, pointB)
+    sideC = a * pointC[0] + b * pointC[1] + c
+    sideD = a * pointD[0] + b * pointD[1] + c
+    
+    if sideC*sideD > 0:
+        return False
+    else:
+        return True
+
+def get_line_params(pointA, pointB):
+    x1, y1 = list(pointA)
+    x2, y2 = list(pointB)
+    y1 = y1
+    y2 = y2
+    a = -(y2-y1)/(x2-x1)
+    b = 1
+    c = x1*(y2-y1)/(x2-x1) - y1
+
+    return a, b, c
+
+
+
 def texture_book_on_img(points, src, args):
     front = cv2.imread(args.data + "/book_cover.jpg")
     front = cv2.resize(front, (640, 480))
@@ -43,30 +67,32 @@ def texture_book_on_img(points, src, args):
     left_side = np.ones((480, 640, 3), dtype=np.uint8) * 255
     right_side = np.ones((480, 640, 3), dtype=np.uint8) * 255
 
-    if points[2][1] > points[6][1] and points[2][0] < points[3][0]:
+    if check_point_visible(points[2], points[3], points[0], points[6]):
         dst_pts_tside = np.array([points[2], points[3], points[6], points[7]], dtype=np.float32)
         top_side = face_transform(top_side, dst_pts_tside)
         draw_face(top_side, src)
 
-    if points[1][1] > points[3][1] and points[1][0] < points[5][0]:
+    if check_point_visible(points[1], points[3], points[0], points[5]):
         dst_pts_rside = np.array([points[1], points[5], points[3], points[7]], dtype=np.float32)
         right_side = face_transform(right_side, dst_pts_rside)
         draw_face(right_side, src)
 
-    if points[4][1] > points[6][1] and points[4][0] < points[0][0]:
+    if check_point_visible(points[0], points[2], points[1], points[4]):
         dst_pts_lside = np.array([points[4], points[0], points[6], points[2]], dtype=np.float32)
         left_side = face_transform(left_side, dst_pts_lside)
         draw_face(left_side, src)
-
-    if points[4][1] > points[0][1] and points[4][0] < points[5][0]:
+    
+    if check_point_visible(points[0], points[1], points[2], points[4]):
         dst_pts_side = np.array([points[4], points[5], points[0], points[1]], dtype=np.float32)
         side = face_transform(side, dst_pts_side)
         draw_face(side, src)
 
-    if points[0][1] > points[2][1]:
+    if points[0][1] != points[2][1]:
         dst_pts_face = np.array([points[0], points[1], points[2], points[3]], dtype=np.float32)
         front = face_transform(front, dst_pts_face)
         draw_face(front, src)
+
+    
 
 
 def draw_face(front, img):
@@ -78,8 +104,29 @@ def draw_face(front, img):
                 img[i, j] = front[i][j]
 
 
-def get_book_coords(args):  # needs to be implemented for 1.5
-    pass
+def get_book_coords(args):  
+    x = args.x
+    y = args.y
+    theta = args.theta
+
+    x = 8*x/100
+    y = 8*y/100
+    theta = - math.pi * theta / 180
+    
+    width = args.w
+    length = args.l
+    breadth = args.b
+
+    r_mtx = [[math.cos(theta), math.sin(theta), 0, x], [-math.sin(theta), math.cos(theta), 0, y], [0, 0, 1, 0]]
+
+    book_coords = [[-length/2, -breadth/2, width], [length/2, -breadth/2, width], [-length/2, breadth/2, width], [length/2, breadth/2, width],
+                    [-length/2, -breadth/2, 0], [length/2, -breadth/2, 0], [-length/2, breadth/2, 0], [length/2, breadth/2, 0]]
+
+    for i in range(len(book_coords)):
+        book_coords[i].append(1)
+        book_coords[i] = np.dot(r_mtx,book_coords[i])
+
+    return book_coords
 
 
 if __name__ == "__main__":
@@ -107,7 +154,14 @@ if __name__ == "__main__":
 
     imgs = [img1, img2, img3, img4]
 
-    view = 0
+    view = 3
+
+    """ 
+    view = 0 i.e. img1 corresponds to front view of the wall.
+    view = 1 i.e. img2 corresponds to top view of the wall.
+    view = 2 i.e. img3 corresponds to bottom view of the wall. 
+    view = 3 i.e. img4 corresponds to left side view of the wall.
+    """
 
     pixel_coords = [[[337, 135], [613, 128], [888, 129], [349, 408], [625, 409], [885, 404]],
                     [[141, 285], [646, 283], [1145, 287], [225, 511], [661, 512], [1064, 510]],
@@ -118,7 +172,7 @@ if __name__ == "__main__":
 
     world_coords = []
     for _ in range(len(pixel_coords)):
-        world_coords.append([[0, 4, 0], [4, 4, 0], [4, 4, 0], [0, 0, 0], [4, 0, 0], [4, 0, 0]])
+        world_coords.append([[0, 4, 0], [4, 4, 0], [8, 4, 0], [0, 0, 0], [4, 0, 0], [8, 0, 0]])
 
     world_coords = np.array(world_coords, dtype=np.float32)
     pixel_coords = np.array(pixel_coords, dtype=np.float32)
@@ -133,7 +187,7 @@ if __name__ == "__main__":
         book_coords = [[0, 0, width], [length, 0, width], [0, breadth, width], [length, breadth, width],
                        [0, 0, 0], [length, 0, 0], [0, breadth, 0], [length, breadth, 0]]
     else:
-        book_coords = get_book_coords(args)  # Needs to be implemented for 1.5
+        book_coords = get_book_coords(args)  
 
     book_coords = np.array(book_coords, dtype=np.float32)
 
@@ -147,13 +201,12 @@ if __name__ == "__main__":
     points = []
 
     for point in pixel_book_coords:
-        x = point[0][0]
-        y = point[0][1]
+        x = round(point[0][0])
+        y = round(point[0][1])
         points.append((x, y))
 
     draw_book_on_img(points, imgs[view])
     texture_book_on_img(points, imgs[view], args)
-
 
     cv2.imshow("output", imgs[view])
     cv2.waitKey(0)
