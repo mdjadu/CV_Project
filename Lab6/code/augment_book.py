@@ -201,8 +201,8 @@ if __name__ == "__main__":
     points = []
 
     for point in pixel_book_coords:
-        x = round(point[0][0])
-        y = round(point[0][1])
+        x = point[0][0]
+        y = point[0][1]
         points.append((x, y))
 
     draw_book_on_img(points, imgs[view])
