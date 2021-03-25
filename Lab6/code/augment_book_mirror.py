@@ -170,18 +170,29 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 
+	view = 0
+	
 	# img = np.zeros((960, 1280, 3), dtype=np.uint8)  # for synthetic
-	img = cv2.imread(args.data + "/mirror.jpg")  # for real
+	# img[:, :, 0] = 236
+	# img[:, :, 1] = 225
+	# img[:, :, 2] = 212
+	if view == 0: # for real
+		img = cv2.imread(args.data + "/mirror_1.jpg")
+	else:
+		img = cv2.imread(args.data + "/mirror_2.jpg")
 	img = cv2.resize(img, (1280, 960))
 
-	view = 3
-
 	pixel_coords = [[[337, 135], [613, 128], [888, 129], [349, 408], [625, 409], [885, 404]],
-					[[141, 285], [646, 283], [1145, 287], [225, 511], [661, 512], [1064, 510]],
+					[[122, 182], [575, 153], [1160, 123], [168, 452], [608, 471], [1124, 486]],
 					[[257, 70], [633, 73], [996, 72], [225, 246], [649, 246], [1033, 242]]]
 
-	view_4 = [[567, 153], [851, 167], [1110, 178], [581, 468], [846, 455], [1100, 451]]
-	view_4 = np.array(view_4, dtype=np.float32)
+	view1 = [[481, 368], [543, 365], [603, 361], [483, 433], [544, 429], [605, 428]]
+	view2 = [[420, 393], [498, 391], [578, 392], [416, 463], [496, 461], [576, 461]]
+	views = [view1, view2]
+	p = 0.8
+	world_coords_view = [[0, p, 0], [p, p, 0], [2*p, p, 0], [0, 0, 0], [p, 0, 0], [2*p, 0, 0]]
+	views = np.array(views, dtype=np.float32)
+	world_coords_view = np.array(world_coords_view, dtype=np.float32)
 
 	world_coords = []
 	for _ in range(len(pixel_coords)):
@@ -208,12 +219,9 @@ if __name__ == "__main__":
 
 	book_reflect_coords = np.array(book_reflect_coords, dtype=np.float32)
 # 
-	_, r, t = cv2.solvePnP(world_coords[0], view_4, mtx, dist, flags=cv2.SOLVEPNP_ITERATIVE)
+	_, r, t = cv2.solvePnP(world_coords_view, views[view], mtx, dist, flags=cv2.SOLVEPNP_ITERATIVE)
 
-	if view != 3:
-		pixel_book_coords, _ = cv2.projectPoints(book_reflect_coords, rvecs[view], tvecs[view], mtx, dist)
-	else:
-		pixel_book_coords, _ = cv2.projectPoints(book_reflect_coords, r, t, mtx, dist)
+	pixel_book_coords, _ = cv2.projectPoints(book_reflect_coords, r, t, mtx, dist)
 
 	points = []
 
@@ -226,10 +234,7 @@ if __name__ == "__main__":
 	texture_book_reflec_on_img(points, img, args)
 
 
-	if view != 3:
-		pixel_book_coords, _ = cv2.projectPoints(book_coords, rvecs[view], tvecs[view], mtx, dist)
-	else:
-		pixel_book_coords, _ = cv2.projectPoints(book_coords, r, t, mtx, dist)
+	pixel_book_coords, _ = cv2.projectPoints(book_reflect_coords, r, t, mtx, dist)
 
 	points = []
 

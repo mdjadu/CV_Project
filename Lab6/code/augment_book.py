@@ -156,15 +156,8 @@ if __name__ == "__main__":
 
     view = 3
 
-    """ 
-    view = 0 i.e. img1 corresponds to front view of the wall.
-    view = 1 i.e. img2 corresponds to top view of the wall.
-    view = 2 i.e. img3 corresponds to bottom view of the wall. 
-    view = 3 i.e. img4 corresponds to left side view of the wall.
-    """
-
     pixel_coords = [[[337, 135], [613, 128], [888, 129], [349, 408], [625, 409], [885, 404]],
-                    [[141, 285], [646, 283], [1145, 287], [225, 511], [661, 512], [1064, 510]],
+                    [[122, 182], [575, 153], [1160, 123], [168, 452], [608, 471], [1124, 486]],
                     [[257, 70], [633, 73], [996, 72], [225, 246], [649, 246], [1033, 242]]]
 
     view_4 = [[567, 153], [851, 167], [1110, 178], [581, 468], [846, 455], [1100, 451]]
