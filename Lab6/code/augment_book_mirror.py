@@ -135,13 +135,13 @@ def get_book_coords(args):
 
 	x = 8*x/100
 	y = 8*y/100
-	theta = - math.pi * theta / 180
+	theta = math.pi * theta / 180
 	
 	width = args.w
 	length = args.l
 	breadth = args.b
 
-	r_mtx = [[math.cos(theta), math.sin(theta), 0, x], [-math.sin(theta), math.cos(theta), 0, y], [0, 0, 1, 0]]
+	r_mtx = [[math.cos(theta), -math.sin(theta), 0, x], [math.sin(theta), math.cos(theta), 0, y], [0, 0, 1, 0]]
 
 	book_coords = [[-length/2, -breadth/2, width], [length/2, -breadth/2, width], [-length/2, breadth/2, width], [length/2, breadth/2, width],
 					[-length/2, -breadth/2, 0], [length/2, -breadth/2, 0], [-length/2, breadth/2, 0], [length/2, breadth/2, 0]]
