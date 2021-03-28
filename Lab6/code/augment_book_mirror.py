@@ -172,14 +172,14 @@ if __name__ == "__main__":
 
 	view = 0
 	
-	# img = np.zeros((960, 1280, 3), dtype=np.uint8)  # for synthetic
-	# img[:, :, 0] = 236
-	# img[:, :, 1] = 225
-	# img[:, :, 2] = 212
-	if view == 0: # for real
-		img = cv2.imread(args.data + "/mirror_1.jpg")
-	else:
-		img = cv2.imread(args.data + "/mirror_2.jpg")
+	img = np.zeros((960, 1280, 3), dtype=np.uint8)  # for synthetic
+	img[:, :, 0] = 236
+	img[:, :, 1] = 225
+	img[:, :, 2] = 212
+	# if view == 0: # for real
+	# 	img = cv2.imread(args.data + "/mirror_1.jpg")
+	# else:
+	# 	img = cv2.imread(args.data + "/mirror_2.jpg")
 	img = cv2.resize(img, (1280, 960))
 
 	pixel_coords = [[[337, 135], [613, 128], [888, 129], [349, 408], [625, 409], [885, 404]],
@@ -234,7 +234,7 @@ if __name__ == "__main__":
 	texture_book_reflec_on_img(points, img, args)
 
 
-	pixel_book_coords, _ = cv2.projectPoints(book_reflect_coords, r, t, mtx, dist)
+	pixel_book_coords, _ = cv2.projectPoints(book_coords, r, t, mtx, dist)
 
 	points = []
 
